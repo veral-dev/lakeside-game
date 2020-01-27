@@ -10,7 +10,7 @@ class Player {
         this.width = 50;
         this.height = 50;
 
-        this.posX = 0;
+        this.posX = 80;
         this.posY0 = this.gameHeight * 0.95 - this.height; //Guardamos la posicion original para usarla como suelo
         this.posY = this.gameHeight * 0.95 - this.height;
 

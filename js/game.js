@@ -38,6 +38,10 @@ const game = {
             this.drawAll();
             this.moveALl();
             this.isCollision();
+            if (this.player.posY >= this.windowsSize.height) {
+                this.gameOver()
+            }
+
             // console.log(this.player.posY)
             // console.log(this.isCollision())
         }, 1000 / 20)
@@ -86,25 +90,19 @@ const game = {
     },
 
     gameOver() {
+        alert('GAME OVER')
         clearInterval(this.interval);
     },
     isCollision() {
-        // return this.objectsArray.some(
-        //     obs => {
-        //         return this.player.posX + this.player.width >= obs.posX &&
-        //             this.player.posY + this.player.height >= obs.posY &&
-        //             this.player.posX <= obs.posX + obs._width &&
-        //             this.player.posY <= obs.posY + obs._height
-        //     }
-        // );
+
 
         this.objectsArray.forEach((obs) => {
-            if (this.player.posX + this.player.width >= obs.posX &&
-                this.player.posY + this.player.height >= obs.posY &&
-                this.player.posX <= obs.posX + obs._width &&
-                this.player.posY <= obs.posY + obs._height
+            if (this.player.posX + this.player.width - 10 >= obs.posX &&
+                // this.player.posY + this.player.height >= obs.posY &&
+                this.player.posX <= obs.posX + obs._width - 30 &&
+                this.player.posY + this.player.height <= obs.posY + obs._height
             ) {
-                this.player.posY0 = obs.posY - this.player.height - 10
+                this.player.posY0 = obs.posY - this.player.height
             } else {
                 this.player.posY0 += 5
             }
