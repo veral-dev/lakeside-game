@@ -1,15 +1,19 @@
-class Background {
-    constructor(ctx, w, h, imgSource) {
-
+class Object {
+    constructor(ctx, w, h, windowWidth, windowHeight, posX, posY, imgSource, playerY, playerH) {
         this._ctx = ctx;
+        this.gameWidth = windowWidth;
+        this.gameHeight = windowHeight;
+
         this._width = w;
         this._height = h;
+
+        this.posX = posX;
+        this.posY = posY
+        //Usamos el playerY0+playerH para que aparezcan siempre en el suelo.
 
         this.image = new Image();
         this.image.src = imgSource;
 
-        this.posX = 0;
-        this.posY = 0;
     }
 
     draw() {
@@ -18,10 +22,6 @@ class Background {
     }
 
     // move() {
-    //     if (this.posX <= -this._width) {
-    //         this.posX = 0;
-    //     }
-    //     this.posX -= this.speedX
+    //     this.posX -= this.velX
     // }
-
 }

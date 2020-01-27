@@ -1,5 +1,5 @@
 class Bullet {
-    constructor(ctx, x, y, y0, playerH) {
+    constructor(ctx, x, y, y0, playerH, direction) {
         this.ctx = ctx
         this.posX = x;
         this.posY = y;
@@ -8,11 +8,12 @@ class Bullet {
         this.radius = 3;
         this.velX = 15;
         this.velY = 0;
+        this.direction = direction
 
         this.gravity = 0;
     }
 
-    draw() { //DIbujamos las balas con un arco
+    draw() {
         this.ctx.beginPath()
         this.ctx.fillStyle = "#00ffe9";
         this.ctx.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2);
@@ -21,7 +22,7 @@ class Bullet {
     }
 
     move() {
-        this.posX += this.velX
+        this.direction ? this.posX -= this.velX : this.posX += this.velX
         this.posY += this.velY //Añadimos velY linear para que caigan
         this.velY += this.gravity //Modificamos la velY para generar el efecto gravedad
 

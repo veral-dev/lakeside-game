@@ -17,7 +17,7 @@ const game = {
         FIRE: 70,
     },
     backgroundArray: [],
-
+    objectsArray: [],
 
     init() {
         this.canvas = document.getElementById("Lakeside");
@@ -37,28 +37,38 @@ const game = {
             this.clearScreen();
             this.drawAll();
             this.moveALl();
-
+            this.isCollision();
+            // console.log(this.player.posY)
+            // console.log(this.isCollision())
         }, 1000 / 20)
     },
 
     reset() {
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky.png'))
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
+        this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 190, 35, this.windowsSize.width, this.windowsSize.height, 460, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 140, 30, this.windowsSize.width, this.windowsSize.height, 650, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 850, this.windowsSize.height - 100, 'images/pads/tree-floor.png'))
+
         this.player = new Player(this.ctx, this.windowsSize.width, this.windowsSize.height, this.keys)
+
     },
     drawAll() {
         this.backgroundArray.forEach(obs => obs.draw())
+        this.objectsArray.forEach(obs => obs.draw())
         this.player.draw(this.framesCounter);
     },
     moveALl() {
-        this.backgroundArray.forEach(obs => obs.move())
+        // this.backgroundArray.forEach(obs => obs.move())
         this.player.move();
 
 
 
     },
     backgroundNight() {
-        if (this.framesCounter % 9000 === 0) {
+        if (this.framesCounter % 1000 === 0) {
             this.backgroundArray = []
             this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky-night.png'))
             this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
@@ -74,5 +84,33 @@ const game = {
     clearScreen() {
         this.ctx.clearRect(0, 0, this.windowsSize.width, this.windowsSize.height)
     },
+
+    gameOver() {
+        clearInterval(this.interval);
+    },
+    isCollision() {
+        // return this.objectsArray.some(
+        //     obs => {
+        //         return this.player.posX + this.player.width >= obs.posX &&
+        //             this.player.posY + this.player.height >= obs.posY &&
+        //             this.player.posX <= obs.posX + obs._width &&
+        //             this.player.posY <= obs.posY + obs._height
+        //     }
+        // );
+
+        this.objectsArray.forEach((obs) => {
+            if (this.player.posX + this.player.width >= obs.posX &&
+                this.player.posY + this.player.height >= obs.posY &&
+                this.player.posX <= obs.posX + obs._width &&
+                this.player.posY <= obs.posY + obs._height
+            ) {
+                this.player.posY0 = obs.posY - this.player.height - 10
+            } else {
+                this.player.posY0 += 5
+            }
+        })
+        //fin del juego, detenemos intervalo
+    },
+
 
 }
