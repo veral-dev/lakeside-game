@@ -10,6 +10,12 @@ const game = {
         height: 600,
     },
     framesCounter: 0,
+    keys: {
+        RIGHT: 68,
+        LEFT: 65,
+        UP: 87,
+        FIRE: 70,
+    },
     backgroundArray: [],
 
 
@@ -31,23 +37,28 @@ const game = {
             this.clearScreen();
             this.drawAll();
             this.moveALl();
-        }, 1000 / 40)
+
+        }, 1000 / 20)
     },
 
     reset() {
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky.png'))
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
+        this.player = new Player(this.ctx, this.windowsSize.width, this.windowsSize.height, this.keys)
     },
     drawAll() {
         this.backgroundArray.forEach(obs => obs.draw())
+        this.player.draw(this.framesCounter);
     },
     moveALl() {
         this.backgroundArray.forEach(obs => obs.move())
+        this.player.move();
+
 
 
     },
     backgroundNight() {
-        if (this.framesCounter % 100 === 0) {
+        if (this.framesCounter % 9000 === 0) {
             this.backgroundArray = []
             this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky-night.png'))
             this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
@@ -63,4 +74,5 @@ const game = {
     clearScreen() {
         this.ctx.clearRect(0, 0, this.windowsSize.width, this.windowsSize.height)
     },
+
 }
