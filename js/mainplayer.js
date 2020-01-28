@@ -159,6 +159,7 @@ class Player {
     shoot() {
         this.bullets.push(new Bullet(this._ctx, this.posX + this.width, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
         this.bullets.length === 15 ? this.bullets = [] : null
+
     }
 
 }

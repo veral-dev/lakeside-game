@@ -18,6 +18,8 @@ const game = {
     },
     backgroundArray: [],
     objectsArray: [],
+    objectsInMovement: [],
+    enemiesArray: [],
 
     init() {
         this.canvas = document.getElementById("Lakeside");
@@ -51,22 +53,29 @@ const game = {
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky.png'))
         this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
         this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 190, 35, this.windowsSize.width, this.windowsSize.height, 460, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 140, 30, this.windowsSize.width, this.windowsSize.height, 650, this.windowsSize.height - 100, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 850, this.windowsSize.height - 100, 'images/pads/tree-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 850, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+
+        this.objectsInMovement.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1050, this.windowsSize.height - 80, 'images/pads/tree-floor.png', this.windowsSize.height - 80))
 
         this.player = new Player(this.ctx, this.windowsSize.width, this.windowsSize.height, this.keys)
 
+        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 760, this.windowsSize.height - 120, 760, this.windowsSize.height - 120, 'images/enemies/enemy1-final.png'))
     },
     drawAll() {
         this.backgroundArray.forEach(obs => obs.draw())
         this.objectsArray.forEach(obs => obs.draw())
+        this.objectsInMovement.forEach(obs => obs.draw())
+        this.enemiesArray.forEach(obs => obs.draw(this.framesCounter))
         this.player.draw(this.framesCounter);
     },
     moveALl() {
         // this.backgroundArray.forEach(obs => obs.move())
         this.player.move();
+        this.objectsInMovement.forEach(obs => obs.move())
+        this.enemiesArray.forEach(obs => obs.move())
+
 
 
 
@@ -78,6 +87,7 @@ const game = {
             this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
         }
     },
+
     setDimensions() {
         this.canvas.width = this.windowsSize.width
         this.canvas.height = this.windowsSize.height
@@ -97,6 +107,17 @@ const game = {
 
 
         this.objectsArray.forEach((obs) => {
+            if (this.player.posX + this.player.width - 10 >= obs.posX &&
+                // this.player.posY + this.player.height >= obs.posY &&
+                this.player.posX <= obs.posX + obs._width - 30 &&
+                this.player.posY + this.player.height <= obs.posY + obs._height
+            ) {
+                this.player.posY0 = obs.posY - this.player.height
+            } else {
+                this.player.posY0 += 5
+            }
+        })
+        this.objectsInMovement.forEach((obs) => {
             if (this.player.posX + this.player.width - 10 >= obs.posX &&
                 // this.player.posY + this.player.height >= obs.posY &&
                 this.player.posX <= obs.posX + obs._width - 30 &&
