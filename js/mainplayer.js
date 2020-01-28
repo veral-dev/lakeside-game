@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, windowWidth, windowHeight, keys) {
+    constructor(ctx, windowWidth, windowHeight, keys, framesCounter) {
         this._ctx = ctx;
         this.gameWidth = windowWidth;
         this.gameHeight = windowHeight;
@@ -10,8 +10,8 @@ class Player {
         this.width = 50;
         this.height = 50;
 
-        this.posX = 80;
-        this.posY0 = this.gameHeight - 300; //Guardamos la posicion original para usarla como suelo
+        this.posX = 50;
+        this.posY0 = this.gameHeight - 150; //Guardamos la posicion original para usarla como suelo
         this.posY = this.gameHeight * 0.95 - this.height;
 
         this.velY = 1;
@@ -158,7 +158,7 @@ class Player {
 
     shoot() {
         this.bullets.push(new Bullet(this._ctx, this.posX + this.width, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
-        this.bullets.length === 15 ? this.bullets = [] : null
+        this.bullets.length === 30 ? this.bullets = [] : null
 
     }
 

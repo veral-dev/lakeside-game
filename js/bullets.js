@@ -6,7 +6,7 @@ class Bullet {
         this.posY0 = y0
         this.playerHeight = playerH
         this.radius = 3;
-        this.velX = 15;
+        this.velX = 10;
         this.velY = 0;
         this.direction = direction
 

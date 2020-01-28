@@ -24,6 +24,7 @@ class Enemy {
         this.image.framesIndexY = 1;
 
         this.direction = false;
+        this.enemyLife = 20;
     }
     draw(framesCounter) {
         this._ctx.drawImage(
@@ -52,6 +53,20 @@ class Enemy {
     }
 
     move() {
+        let gravity = 0.8;
+
+        if (this.posY < this.posY0) {
+            //COmprobamos que el player nunca sobrepase el suelo.
+
+            this.posY += this.velY;
+            this.velY += gravity;
+        } else {
+            //Si lo hace reseteamos posición y velocidad
+            this.velY = 1;
+            this.posY = this.posY0;
+        }
+
+
 
         this.posX -= this.vel
         if (this.posX <= this.posX0 - this._move) {
