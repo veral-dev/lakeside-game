@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(ctx, windowWidth, windowHeight, posX, posY, posX0, posY0, imgSource) {
+    constructor(ctx, windowWidth, windowHeight, posX, posY, posX0, posY0, imgSource, enemyMove) {
         this._ctx = ctx
         this.gameWidth = windowWidth
         this.gameHeight = windowHeight
@@ -13,6 +13,7 @@ class Enemy {
         this.posX0 = posX0
         this.posY0 = posY0
         this.posY = posY
+        this._move = enemyMove
 
         this.velY = 1
         this.vel = 1.5
@@ -53,7 +54,7 @@ class Enemy {
     move() {
 
         this.posX -= this.vel
-        if (this.posX <= this.posX0 - 250) {
+        if (this.posX <= this.posX0 - this._move) {
             this.direction = true
             this.image.framesIndexY = 0;
 
