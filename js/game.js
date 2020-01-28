@@ -7,7 +7,7 @@ const game = {
     ctx: undefined,
     windowsSize: {
         width: 1200,
-        height: 600,
+        height: 650,
     },
     framesCounter: 0,
     keys: {
@@ -118,13 +118,15 @@ const game = {
         // More Enemies
         if (this.framesCounter % 1000 === 0) {
             this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 300, this.windowsSize.height - 450, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
+            this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 550, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
 
         }
+
 
     },
     moveALl() {
         // this.backgroundArray.forEach(obs => obs.move())
-        this.player.move();
+        this.player.move(this.framesCounter);
         this.objectsInMovementY.forEach(obs => obs.moveY())
         this.objectsInMovementX.forEach(obs => obs.moveX())
 
@@ -159,6 +161,11 @@ const game = {
         this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 940, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
         this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
         this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 390, this.windowsSize.height - 400, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
+        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 800, this.windowsSize.height - 465, 800, this.windowsSize.height - 465, 'images/enemies/enemy1-final.png', 220))
+
+
+        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 490, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
+
 
     },
     setDimensions() {
@@ -172,10 +179,7 @@ const game = {
         this.ctx.clearRect(0, 0, this.windowsSize.width, this.windowsSize.height)
     },
 
-    gameOver() {
-        alert('GAME OVER')
-        clearInterval(this.interval);
-    },
+
     isCollision() {
 
         // Objetos
@@ -252,6 +256,7 @@ const game = {
 
         })
     },
+
     bulletCollision() {
         //Bullets impact
 
@@ -278,11 +283,22 @@ const game = {
             this.player.posX <= this.finish.posX + this.finish._width - 100 &&
             this.player.posY + this.player.height <= this.finish.posY + this.finish._height
         ) {
-            alert('win')
+            // this.drawRectangle()
+            // this.writeText('YEAH!You Win')
+            this.youWin()
             clearInterval(this.interval);
 
         }
-    }
+    },
 
+    youWin() {
+        let myImage = new Image()
+        myImage.src = 'images/pads/you-win.png'
+        myImage.onload = () => this.ctx.drawImage(myImage, 330, 250, 500, 175) // El evento .onload se dispara cuando la imagen ha sido completamente cargada
+    },
+    gameOver() {
+        alert('GAME OVER')
+        clearInterval(this.interval);
+    },
 
 }

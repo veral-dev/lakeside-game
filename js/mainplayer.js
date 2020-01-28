@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, windowWidth, windowHeight, keys, framesCounter) {
+    constructor(ctx, windowWidth, windowHeight, keys) {
         this._ctx = ctx;
         this.gameWidth = windowWidth;
         this.gameHeight = windowHeight;
@@ -10,8 +10,8 @@ class Player {
         this.width = 50;
         this.height = 50;
 
-        this.posX = 50;
-        this.posY0 = this.gameHeight - 150; //Guardamos la posicion original para usarla como suelo
+        this.posX = 150;
+        this.posY0 = this.gameHeight - 550; //Guardamos la posicion original para usarla como suelo
         this.posY = this.gameHeight * 0.95 - this.height;
 
         this.velY = 1;
@@ -51,6 +51,7 @@ class Player {
         this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames.
 
         this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas.
+
     }
 
     move() {
@@ -123,7 +124,6 @@ class Player {
                 case this.keys.FIRE:
                     this.image.framesIndexY = 2
                     this.keyFire = true
-                    this.shoot(); //Funcion de disparo
                     break;
             }
         };
@@ -149,6 +149,8 @@ class Player {
 
                     break;
                 case this.keys.FIRE:
+                    this.shoot(); //Funcion de disparo
+
                     this.image.framesIndexY = 0
                     this.keyFire = false
 
@@ -157,9 +159,10 @@ class Player {
     }
 
     shoot() {
+        // if (game.framesCounter % 6 == 0) {
         this.bullets.push(new Bullet(this._ctx, this.posX + this.width, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
         this.bullets.length === 30 ? this.bullets = [] : null
-
+        // }
     }
 
 }

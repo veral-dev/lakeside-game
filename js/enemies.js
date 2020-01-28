@@ -24,7 +24,7 @@ class Enemy {
         this.image.framesIndexY = 1;
 
         this.direction = false;
-        this.enemyLife = 20;
+        this.enemyLife = 40;
     }
     draw(framesCounter) {
         this._ctx.drawImage(
