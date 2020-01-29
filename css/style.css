@@ -1,28 +1,27 @@
 * {
     padding: 0;
     margin: 0;
-    background-color: antiquewhite;
+    background-color: #737171;
 }
 
 .start {
     text-align: center;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
-button {}
-
 #start-button {
-    font-size: 17px;
+    font-size: 30px;
     text-transform: uppercase;
     border-radius: 20px;
     position: absolute;
-    left: 450px;
-    bottom: 20px;
-    padding: 10px 20px;
+    left: 530px;
+    bottom: 100px;
+    padding: 10px 74px;
     margin: 10px auto;
     color: white;
     background-color: rgb(0, 172, 100);
     box-shadow: 5px 5px 8px #3d3d3d;
+    z-index: -100;
 }
 
 #audio-button {
@@ -30,7 +29,7 @@ button {}
     text-transform: uppercase;
     border-radius: 20px;
     position: absolute;
-    left: 570px;
+    left: 530px;
     bottom: 20px;
     padding: 11px 20px;
     margin: 10px auto;
@@ -44,7 +43,7 @@ button {}
     text-transform: uppercase;
     border-radius: 20px;
     position: absolute;
-    left: 735px;
+    left: 685px;
     bottom: 20px;
     padding: 11px 20px;
     margin: 10px auto;

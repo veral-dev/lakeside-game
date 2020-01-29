@@ -13,8 +13,4 @@ class Sound {
     stop() {
         this._sound.pause()
     }
-
-    reset() {
-        this._sound.reset()
-    }
 }

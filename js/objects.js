@@ -12,7 +12,6 @@ class Object {
         this.posY0 = posY0
         this.posX0 = posX0
         this.distance = distance
-        //Usamos el playerY0+playerH para que aparezcan siempre en el suelo.
 
         this.image = new Image();
         this.image.src = imgSource;
@@ -23,7 +22,6 @@ class Object {
 
     draw() {
         this._ctx.drawImage(this.image, this.posX, this.posY, this._width, this._height);
-        // this._ctx.drawImage(this.image, this.posX + this._width, this.posY, this._width, this._height);
     }
 
     moveY() {

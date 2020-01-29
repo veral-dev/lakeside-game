@@ -31,11 +31,12 @@ class Player {
         this.keyUp = false
         this.keyLeft = false
         this.keyFire = false
+        this.shooting = false
         this.bulletDirection = false
 
         this.setListeners()
 
-        this.life = 3
+        this.playerLife = 3
     }
 
     draw(framesCounter) {
@@ -50,17 +51,17 @@ class Player {
             this.width,
             this.height
         );
-        this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames.
 
+        this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames.
+        this.shooting ? this.animate(framesCounter) : null;
         this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas.
 
     }
 
     move() {
         let gravity = 0.8;
-
         if (this.posY < this.posY0) {
-            //COmprobamos que el player nunca sobrepase el suelo.
+            //Comprobamos que el player nunca sobrepase el suelo.
 
             this.posY += this.velY;
             this.velY += gravity;
@@ -84,9 +85,6 @@ class Player {
         this.keyRight ? this.posX += 5 : null
 
         this.keyLeft ? this.posX -= 5 : null
-
-        this.keyLeft && this.keyFire ? this.image.framesIndexY = 3 : null
-
     }
 
     animate(framesCounter) {
@@ -102,8 +100,11 @@ class Player {
         document.onkeydown = e => {
             switch (e.keyCode) {
                 case this.keys.RIGHT:
+                    this.image.framesIndexY = 0
                     this.moving = true;
                     this.keyRight = true;
+                    this.bulletDirection = false;
+
 
                     break;
                 case this.keys.LEFT:
@@ -124,8 +125,13 @@ class Player {
                     break;
 
                 case this.keys.FIRE:
-                    this.image.framesIndexY = 2
                     this.keyFire = true
+                    this.shooting = true
+                    if (this.keyRight) {
+                        this.image.framesIndexY = 2
+                    } else if (this.keyLeft) {
+                        this.image.framesIndexY = 3
+                    }
                     break;
             }
         };
@@ -134,14 +140,13 @@ class Player {
             switch (e.keyCode) {
                 case this.keys.RIGHT:
                     this.moving = false;
-                    this.keyRight = false;
+                    this.keyRight = false
 
                     break;
                 case this.keys.LEFT:
+                    this.keyLeft = false
                     this.moving = false;
-                    this.keyLeft = false;
-                    this.bulletDirection = false;
-                    this.image.framesIndexY = 0
+
 
                     break;
                 case this.keys.UP:
@@ -151,9 +156,10 @@ class Player {
 
                     break;
                 case this.keys.FIRE:
-                    this.shoot(); //Funcion de disparo
+                    this.shoot();
+                    this.shooting = false
 
-                    this.image.framesIndexY = 0
+                    // this.image.framesIndexY = 0
                     this.keyFire = false
 
             }
@@ -161,10 +167,8 @@ class Player {
     }
 
     shoot() {
-        // if (game.framesCounter % 6 == 0) {
-        this.bullets.push(new Bullet(this._ctx, this.posX + this.width, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
+        this.bullets.push(new Bullet(this._ctx, this.posX + this.width / 2, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
         this.bullets.length === 30 ? this.bullets = [] : null
-        // }
     }
 
 }
