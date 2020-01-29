@@ -1,30 +1,30 @@
 class Player {
     constructor(ctx, windowWidth, windowHeight, keys) {
-        this._ctx = ctx;
-        this.gameWidth = windowWidth;
-        this.gameHeight = windowHeight;
+        this._ctx = ctx
+        this.gameWidth = windowWidth
+        this.gameHeight = windowHeight
 
-        this.image = new Image();
-        this.image.src = "images/mainplayer/final-player2.png";
+        this.image = new Image()
+        this.image.src = "images/mainplayer/final-player2.png"
 
-        this.width = 50;
-        this.height = 50;
+        this.width = 50
+        this.height = 50
 
-        this.posX = 150;
-        this.posY0 = this.gameHeight - 550; //Guardamos la posicion original para usarla como suelo
+        this.posX = 50
+        this.posY0 = this.gameHeight - 150; //Guardamos la posicion original para usarla como suelo
         this.posY = this.gameHeight * 0.95 - this.height;
 
-        this.velY = 1;
+        this.velY = 1
 
-        this.image.frames = 12; //Indicamos el numero de frames que tiene la imagen
+        this.image.frames = 12 //Indicamos el numero de frames que tiene la imagen
         this.image.framesIndex = 0; //Frame actual menos 1, lo usaremos para recortar la imagen en drawImage
-        this.image.framesY = 4;
+        this.image.framesY = 4
         this.image.framesIndexY = 0
 
-        this.keys = keys;
+        this.keys = keys
 
 
-        this.bullets = [];
+        this.bullets = []
 
         this.moving = false
         this.keyRight = false
@@ -33,7 +33,9 @@ class Player {
         this.keyFire = false
         this.bulletDirection = false
 
-        this.setListeners();
+        this.setListeners()
+
+        this.life = 3
     }
 
     draw(framesCounter) {

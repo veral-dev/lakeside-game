@@ -16,6 +16,7 @@ const game = {
         UP: 87,
         FIRE: 70,
     },
+    gameMusic: new Sound("sounds/fallen-game-sound.mp3"),
     backgroundArray: [],
     objectsArray: [],
     objectsInMovementY: [],
@@ -32,6 +33,10 @@ const game = {
         this.setDimensions();
         this.setWindowsMove();
         this.start();
+        this.resetButton()
+        this.audioButton()
+
+
 
     },
     start() {
@@ -40,7 +45,8 @@ const game = {
             this.framesCounter++
 
             if (this.framesCounter > 10000) this.framesCounter = 0
-            this.backgroundNight()
+            // this.backgroundNight()
+
             this.clearScreen()
             this.drawAll()
             this.moveALl()
@@ -51,13 +57,25 @@ const game = {
             this.scoreLife()
             this.win()
 
+
         }, 1000 / 20)
     },
 
     reset() {
-        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky.png'))
-        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky-night.png'))
-        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
+        this.backgroundArray = []
+        this.objectsArray = []
+        this.objectsInMovementX = []
+        this.objectsInMovementY = []
+        this.enemiesArray = []
+        this.lifeArray = []
+        this.newLife = []
+
+        this.gameMusic.play()
+
+        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/sky-night.png'))
+        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/rocks.png'))
+        this.backgroundArray.push(new Background(this.ctx, 510, 104, this.windowsSize.width / 2 - 255, 20, 'images/game-logo.png'))
+
         this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
         this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
         this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
@@ -98,7 +116,6 @@ const game = {
 
         //Player
         this.player = new Player(this.ctx, this.windowsSize.width, this.windowsSize.height, this.keys, this.framesCounter)
-
         this.enemiesCreation()
 
     },
@@ -119,7 +136,6 @@ const game = {
         if (this.framesCounter % 1000 === 0) {
             this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 300, this.windowsSize.height - 450, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
             this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 550, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
-
         }
 
 
@@ -283,22 +299,42 @@ const game = {
             this.player.posX <= this.finish.posX + this.finish._width - 100 &&
             this.player.posY + this.player.height <= this.finish.posY + this.finish._height
         ) {
-            // this.drawRectangle()
-            // this.writeText('YEAH!You Win')
             this.youWin()
             clearInterval(this.interval);
-
         }
     },
 
     youWin() {
         let myImage = new Image()
-        myImage.src = 'images/pads/you-win.png'
-        myImage.onload = () => this.ctx.drawImage(myImage, 330, 250, 500, 175) // El evento .onload se dispara cuando la imagen ha sido completamente cargada
+        myImage.src = 'images/game-win.png'
+        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
     },
     gameOver() {
-        alert('GAME OVER')
+        let myImage = new Image()
+        myImage.src = 'images/game-over.png'
+        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
         clearInterval(this.interval);
     },
+
+    audioButton() {
+        document.getElementById("audio-button").onclick = function () {
+            console.log(this.gameMusic)
+
+            this.gameMusic._sound.paused == false ? this.gameMusic.stop() : this.gameMusic.play()
+        }.bind(game);
+
+    },
+
+    resetButton() {
+        document.getElementById("reset-button").onclick = function () {
+            clearInterval(this.interval);
+            this.clearScreen()
+            this.reset()
+            this.start()
+            this.gameMusic._sound.currentTime = 0
+
+            // this.gameMusic._sound.paused == false ? this.gameMusic.stop() : this.gameMusic.play()
+        }.bind(game)
+    }
 
 }

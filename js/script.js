@@ -1,14 +1,16 @@
-        game.init()
+        // game.init()
 
-        // window.onload = function () {
-        //     document.getElementById("start-button").onclick = function () {
-        //         startGame();
-        //     };
+        window.onload = function () {
+            document.getElementById("start-button").onclick = function () {
+                startGame();
+            };
 
-        //     function startGame() {
 
-        //         game.init()
+            
+            function startGame() {
 
-        //     }
+                game.init()
 
-        // };
+            }
+
+        };
