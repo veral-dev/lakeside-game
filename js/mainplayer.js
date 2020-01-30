@@ -10,9 +10,9 @@ class Player {
         this.width = 50
         this.height = 50
 
-        this.posX = 50
+        this.posX = 20
         this.posY0 = this.gameHeight - 150; //Guardamos la posicion original para usarla como suelo
-        this.posY = this.gameHeight * 0.95 - this.height;
+        this.posY = this.gameHeight - this.height;
 
         this.velY = 1
 
@@ -22,21 +22,21 @@ class Player {
         this.image.framesIndexY = 0
 
         this.keys = keys
-
-
-        this.bullets = []
-
-        this.moving = false
         this.keyRight = false
         this.keyUp = false
         this.keyLeft = false
         this.keyFire = false
+
+        this.moving = false
         this.shooting = false
+
+        this.bullets = []
         this.bulletDirection = false
 
         this.setListeners()
 
-        this.playerLife = 3
+        this.playerLife = 3 // Vidas del jugador
+
     }
 
     draw(framesCounter) {
@@ -52,17 +52,15 @@ class Player {
             this.height
         );
 
-        this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames.
+        this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames
         this.shooting ? this.animate(framesCounter) : null;
-        this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas.
-
+        this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas
     }
 
     move() {
         let gravity = 0.8;
         if (this.posY < this.posY0) {
             //Comprobamos que el player nunca sobrepase el suelo.
-
             this.posY += this.velY;
             this.velY += gravity;
         } else {
@@ -71,10 +69,6 @@ class Player {
             this.posY = this.posY0;
         }
         this.moveJump()
-
-        //mueve derecha
-        // this.posX += 5;
-        // this.posY -= 20; //Añadimos algo de velocidad al salto para generar el efecto de suavidad y que la gravedad no tire directamente de él
 
         this.bullets.forEach(bullet => bullet.move()); //Movemos las balas
     }
@@ -104,23 +98,19 @@ class Player {
                     this.moving = true;
                     this.keyRight = true;
                     this.bulletDirection = false;
-
-
                     break;
+
                 case this.keys.LEFT:
                     this.moving = true;
                     this.keyLeft = true;
                     this.bulletDirection = true;
                     this.image.framesIndexY = 1;
-
                     break;
 
                 case this.keys.UP:
                     if (this.posY >= this.posY0) {
                         this.keyUp = true
                         this.velY -= 10;
-
-
                     }
                     break;
 
@@ -141,27 +131,22 @@ class Player {
                 case this.keys.RIGHT:
                     this.moving = false;
                     this.keyRight = false
-
                     break;
+
                 case this.keys.LEFT:
                     this.keyLeft = false
                     this.moving = false;
-
-
                     break;
+
                 case this.keys.UP:
                     this.keyUp = false;
-
                     this.velY = 1
-
                     break;
+
                 case this.keys.FIRE:
                     this.shoot();
                     this.shooting = false
-
-                    // this.image.framesIndexY = 0
                     this.keyFire = false
-
             }
         };
     }

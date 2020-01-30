@@ -83,8 +83,8 @@ const game = {
         this.lifeArray.forEach(obs => obs.draw())
 
         this.objectsArray.forEach(obs => obs.draw())
-        this.objectsInMovementY.forEach(obs => obs.draw())
-        this.objectsInMovementX.forEach(obs => obs.draw())
+        // this.objectsInMovementY.forEach(obs => obs.draw())
+        // this.objectsInMovementX.forEach(obs => obs.draw())
         this.newLife.forEach(obs => obs.draw())
         this.enemiesArray.forEach(obs => obs.draw(this.framesCounter))
         this.finish.draw()
@@ -94,9 +94,9 @@ const game = {
     moveALl() {
         // this.backgroundArray.forEach(obs => obs.move())
         this.player.move(this.framesCounter);
-        this.objectsInMovementY.forEach(obs => obs.moveY())
-        this.objectsInMovementX.forEach(obs => obs.moveX())
-
+        // this.objectsInMovementY.forEach(obs => obs.moveY())
+        // this.objectsInMovementX.forEach(obs => obs.moveX())
+        this.objectsArray.forEach(obs => obs.move())
         this.enemiesArray.forEach(obs => obs.move())
 
     },
@@ -140,41 +140,46 @@ const game = {
         this.objectsArray.forEach((obs) => {
 
             if (this.player.posX + this.player.width - 10 >= obs.posX &&
-                // this.player.posY + this.player.height >= obs.posY &&
-                this.player.posX <= obs.posX + obs._width - 30 &&
-                this.player.posY + this.player.height <= obs.posY + obs._height
-            ) {
-                this.player.posY0 = obs.posY - this.player.height
-            } else {
-                this.player.posY0 += 1
-            }
-        })
-        // Objetos en movimiento Y plataformas
-        this.objectsInMovementY.forEach((obs) => {
-
-            if (this.player.posX + this.player.width - 10 >= obs.posX &&
-                // this.player.posY + this.player.height >= obs.posY &&
-                this.player.posX <= obs.posX + obs._width - 30 &&
-                this.player.posY + this.player.height <= obs.posY + obs._height
-            ) {
-                this.player.posY0 = obs.posY - this.player.height
-            } else {
-                this.player.posY0 += 1
-            }
-        })
-        // Objetos en movimiento X plataformas
-        this.objectsInMovementX.forEach((obs) => {
-            if (this.player.posX + this.player.width - 10 >= obs.posX &&
                 this.player.posY + this.player.height >= obs.posY &&
                 this.player.posX <= obs.posX + obs._width - 30 &&
                 this.player.posY + this.player.height <= obs.posY + obs._height
             ) {
                 this.player.posY0 = obs.posY - this.player.height
-                this.player.posX = obs.posX + 25
+                obs._direction == 'horizontal' ? this.player.posX = obs.posX + 17 : null
+
             } else {
-                this.player.posX0 += 1
+                this.player.posY0 += .5
+                obs._direction == 'horizontal' ? this.player.posX0 += 1 : null
+
+
             }
         })
+        // // Objetos en movimiento Y plataformas
+        // this.objectsInMovementY.forEach((obs) => {
+
+        //     if (this.player.posX + this.player.width - 10 >= obs.posX &&
+        //         // this.player.posY + this.player.height >= obs.posY &&
+        //         this.player.posX <= obs.posX + obs._width - 30 &&
+        //         this.player.posY + this.player.height <= obs.posY + obs._height
+        //     ) {
+        //         this.player.posY0 = obs.posY - this.player.height
+        //     } else {
+        //         this.player.posY0 += 1
+        //     }
+        // })
+        // // Objetos en movimiento X plataformas
+        // this.objectsInMovementX.forEach((obs) => {
+        //     if (this.player.posX + this.player.width - 10 >= obs.posX &&
+        //         this.player.posY + this.player.height >= obs.posY &&
+        //         this.player.posX <= obs.posX + obs._width - 30 &&
+        //         this.player.posY + this.player.height <= obs.posY + obs._height
+        //     ) {
+        //         this.player.posY0 = obs.posY - this.player.height
+        //         this.player.posX = obs.posX + 25
+        //     } else {
+        //         this.player.posX0 += 1
+        //     }
+        // })
         // New Life
         this.newLife.forEach((obs) => {
 
@@ -222,12 +227,9 @@ const game = {
                         bullet.posY + bullet.radius <= enemy.posY + enemy.height) {
                         enemy.enemyLife--
                         this.player.bullets.splice(idx, 1)
-                        if (enemy.enemyLife <= 0) {
-                            this.enemiesArray.splice(idx, 1)
-                        }
+                        enemy.enemyLife <= 0 ? this.enemiesArray.splice(idx, 1) : null
                     }
                 })
-
             });
     },
     win() {
@@ -277,68 +279,71 @@ const game = {
     },
 
     level1() {
-        // level.forEach(level => this.backgroundArray.push(level))
-        // level.forEach(level => this.objectsArray.push(level))
-
-        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/sky-night.png'))
-        this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/rocks.png'))
-        this.backgroundArray.push(new Background(this.ctx, 510, 104, this.windowsSize.width / 2 - 255, 20, 'images/game-logo.png'))
-
-        this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 890, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-
-
-        this.objectsInMovementY.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1050, this.windowsSize.height - 80, 'images/pads/tree-floor.png', 1050, this.windowsSize.height - 80, 110))
-
-        //Second floor
-        this.objectsArray.push(new Object(this.ctx, 500, 40, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 200, 30, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
-
-        this.objectsInMovementX.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 200, 'images/pads/tree-floor.png', 390, this.windowsSize.height - 200, 130))
-
-        // Third floor
-        this.objectsArray.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 235, 'images/pads/rock.png'))
-        this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 50, this.windowsSize.height - 300, 'images/pads/sand-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 150, this.windowsSize.height - 290, 'images/pads/sand-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 260, 30, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 310, 'images/pads/sand-floor.png'))
-
-        this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 570, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 690, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 810, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-
-        this.objectsInMovementX.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 970, this.windowsSize.height - 300, 60))
-        this.objectsInMovementY.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1100, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 1100, this.windowsSize.height - 300, 80))
-
-        // Final
-        this.objectsInMovementX.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 410, 'images/pads/tree-floor.png', 990, this.windowsSize.height - 410, 80))
-        this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 420, 'images/pads/sand-floor.png'))
-        this.objectsArray.push(new Object(this.ctx, 300, 40, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 450, 'images/pads/sand-floor.png'))
-
-
-        this.objectsArray.push(new Object(this.ctx, 200, 40, this.windowsSize.width, this.windowsSize.height, 40, 140, 'images/pads/sand-floor.png'))
-        this.finish = new Object(this.ctx, 130, 130, this.windowsSize.width, this.windowsSize.height, 50, 30, 'images/pads/finish.png')
+        backgrounds.forEach(backgrounds => this.backgroundArray.push(backgrounds))
+        objects.forEach(object => this.objectsArray.push(object))
+        enemies.forEach(enemy => this.enemiesArray.push(enemy))
 
         // New life
         this.newLife.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 700, this.windowsSize.height - 370, 'images/pads/new-life.png'))
+        //Finish
+        this.finish = new Object(this.ctx, 130, 130, this.windowsSize.width, this.windowsSize.height, 50, 30, 'images/pads/finish.png')
+
+        // this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/sky-night.png'))
+        // this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/rocks.png'))
+        // this.backgroundArray.push(new Background(this.ctx, 510, 104, this.windowsSize.width / 2 - 255, 20, 'images/game-logo.png'))
+
+        // this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 890, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
+
+
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1050, this.windowsSize.height - 80, 'images/pads/tree-floor.png', 1050, this.windowsSize.height - 80, 110, 'vertical'))
+
+        // //Second floor
+        // this.objectsArray.push(new Object(this.ctx, 500, 40, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 200, 30, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
+
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 200, 'images/pads/tree-floor.png', 390, this.windowsSize.height - 200, 130, 'horizontal'))
+
+        // // Third floor
+        // this.objectsArray.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 235, 'images/pads/rock.png'))
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 50, this.windowsSize.height - 300, 'images/pads/sand-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 150, this.windowsSize.height - 290, 'images/pads/sand-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 260, 30, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 310, 'images/pads/sand-floor.png'))
+
+        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 570, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 690, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 810, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
+
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 970, this.windowsSize.height - 300, 60, 'horizontal'))
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1100, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 1100, this.windowsSize.height - 300, 80, 'vertical'))
+
+        // // Final
+        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 410, 'images/pads/tree-floor.png', 990, this.windowsSize.height - 410, 80, 'horizontal'))
+        // this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 420, 'images/pads/sand-floor.png'))
+        // this.objectsArray.push(new Object(this.ctx, 300, 40, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 450, 'images/pads/sand-floor.png'))
+
+
+        // this.objectsArray.push(new Object(this.ctx, 200, 40, this.windowsSize.width, this.windowsSize.height, 40, 140, 'images/pads/sand-floor.png'))
+
 
         //Enemies
-        this.enemiesCreationLevel1()
+        // this.enemiesCreationLevel1()
 
     },
     enemiesCreationLevel1() {
 
-        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 760, this.windowsSize.height - 120, 760, this.windowsSize.height - 120, 'images/enemies/enemy1-final.png', 250))
-        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 940, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
-        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
-        this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 800, this.windowsSize.height - 465, 800, this.windowsSize.height - 465, 'images/enemies/enemy1-final.png', 220))
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 760, this.windowsSize.height - 120, 760, this.windowsSize.height - 120, 'images/enemies/enemy1-final.png', 250))
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 940, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 800, this.windowsSize.height - 465, 800, this.windowsSize.height - 465, 'images/enemies/enemy1-final.png', 220))
 
         // More Enemies
-        if (this.framesCounter % 1000 === 0) {
-            this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 300, this.windowsSize.height - 450, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
-            this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 550, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
-        }
+        // if (this.framesCounter % 1000 === 0) {
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 300, this.windowsSize.height - 450, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
+        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 550, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
+        // }
         // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 390, this.windowsSize.height - 400, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
         // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 490, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
     },

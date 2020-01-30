@@ -4,9 +4,22 @@
     background-color: #737171;
 }
 
+.canvas {
+    text-align: center;
+    margin: 20px 0;
+    z-index: 999;
+}
+
 .start {
     text-align: center;
     margin: 20px 0;
+}
+
+#logo {
+    position: absolute;
+    left: 390px;
+    top: 50px;
+    z-index: 5;
 }
 
 #start-button {
