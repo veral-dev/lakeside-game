@@ -25,7 +25,8 @@ body {
 
 #logo {
     position: absolute;
-    left: 450px;
+    align-content: center;
+    left: 260px;
     top: 50px;
     z-index: -100;
 }

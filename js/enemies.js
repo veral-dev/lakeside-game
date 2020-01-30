@@ -1,10 +1,11 @@
 class Enemy {
-    constructor(ctx, windowWidth, windowHeight, posX, posY, posX0, posY0, imgSource, enemyMove) {
+    constructor(ctx, windowWidth, windowHeight, posX, posY, posX0, posY0, imgSource, enemyMove, shoot) {
         this._ctx = ctx
         this.gameWidth = windowWidth
         this.gameHeight = windowHeight
         this.image = new Image()
         this.image.src = imgSource
+        this.shoot = shoot
 
         this.width = 50
         this.height = 50

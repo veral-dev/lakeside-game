@@ -132,7 +132,7 @@ const game = {
                 this.player.posY + this.player.height <= obs.posY + obs._height
             ) {
                 this.player.posY0 = obs.posY - this.player.height
-                obs._direction == 'horizontal' ? this.player.posX = obs.posX + 17 : null
+                obs._direction == 'horizontal' ? this.player.posX -= obs.vel : null
 
             } else {
                 this.player.posY0 += .5
@@ -245,7 +245,7 @@ const game = {
         } else {
             myImage.src = 'images/big-win.png'
         }
-        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
+        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 180, this.windowsSize.height / 2 - 200, 400, 400)
         // this.gameMusic.stop()
 
 
@@ -261,8 +261,12 @@ const game = {
     gameOver() {
         let myImage = new Image()
         myImage.src = 'images/game-over.png'
-        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
+        myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 180, this.windowsSize.height / 2 - 200, 400, 400)
         this.gameMusic.stop()
+        let audioGameOver = document.createElement("audio")
+        audioGameOver.src = "sounds/game-over.mp3"
+        audioGameOver.volume = 0.5
+        audioGameOver.play()
         clearInterval(this.interval);
     },
 
