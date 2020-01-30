@@ -25,6 +25,7 @@ const game = {
     lifeArray: [],
     newLife: [],
     finish: '',
+    actualLevel: 0,
 
     init() {
         this.canvas = document.getElementById("Lakeside");
@@ -34,6 +35,7 @@ const game = {
         this.setWindowsMove();
         this.start();
         this.resetButton()
+        this.restartButton()
         this.audioButton()
 
 
@@ -47,7 +49,6 @@ const game = {
 
             if (this.framesCounter > 10000) this.framesCounter = 0
             // this.backgroundNight()
-
             this.clearScreen()
             this.drawAll()
             this.moveALl()
@@ -71,8 +72,9 @@ const game = {
         this.enemiesArray = []
         this.lifeArray = []
         this.newLife = []
+        this.finish = ''
 
-        this.level1()
+        this.level()
 
         //Player
         this.player = new Player(this.ctx, this.windowsSize.width, this.windowsSize.height, this.keys, this.framesCounter)
@@ -81,10 +83,7 @@ const game = {
     drawAll() {
         this.backgroundArray.forEach(obs => obs.draw())
         this.lifeArray.forEach(obs => obs.draw())
-
         this.objectsArray.forEach(obs => obs.draw())
-        // this.objectsInMovementY.forEach(obs => obs.draw())
-        // this.objectsInMovementX.forEach(obs => obs.draw())
         this.newLife.forEach(obs => obs.draw())
         this.enemiesArray.forEach(obs => obs.draw(this.framesCounter))
         this.finish.draw()
@@ -92,10 +91,7 @@ const game = {
         this.player.draw(this.framesCounter);
     },
     moveALl() {
-        // this.backgroundArray.forEach(obs => obs.move())
         this.player.move(this.framesCounter);
-        // this.objectsInMovementY.forEach(obs => obs.moveY())
-        // this.objectsInMovementX.forEach(obs => obs.moveX())
         this.objectsArray.forEach(obs => obs.move())
         this.enemiesArray.forEach(obs => obs.move())
 
@@ -217,7 +213,6 @@ const game = {
 
     bulletCollision() {
         //Bullets impact
-
         this.enemiesArray.forEach(
             (enemy, idx) => {
                 this.player.bullets.forEach((bullet, idxBullet) => {
@@ -239,22 +234,39 @@ const game = {
             this.player.posY + this.player.height <= this.finish.posY + this.finish._height
         ) {
             this.youWin()
-            clearInterval(this.interval);
+            clearInterval(this.interval)
+            // Wait 10 sec
+            this.actualLevel != backgrounds.length - 1 ? setTimeout(() => {
+                this.changeLevel()
+            }, 5000) : null
         }
     },
 
     youWin() {
+
         let myImage = new Image()
-        myImage.src = 'images/game-win.png'
+        if (this.actualLevel != backgrounds.length - 1) {
+            myImage.src = 'images/game-win.png'
+        } else {
+            myImage.src = 'images/big-win.png'
+        }
         myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
-        this.gameMusic.stop()
+        // this.gameMusic.stop()
+
 
     },
+
+    changeLevel() {
+        this.clearScreen()
+        this.gameMusic._sound.currentTime = 0
+        this.actualLevel < backgrounds.length - 1 ? this.actualLevel++ : this.actualLevel = 0
+        this.start()
+    },
+
     gameOver() {
         let myImage = new Image()
         myImage.src = 'images/game-over.png'
         myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 200, this.windowsSize.height / 2 - 200, 400, 400)
-
         this.gameMusic.stop()
         clearInterval(this.interval);
     },
@@ -270,7 +282,6 @@ const game = {
         document.getElementById("reset-button").onclick = function () {
             clearInterval(this.interval);
             this.clearScreen()
-            // this.gameMusic.stop()
             this.gameMusic._sound.currentTime = 0
 
             this.start()
@@ -278,74 +289,29 @@ const game = {
         }.bind(game)
     },
 
-    level1() {
-        backgrounds.forEach(backgrounds => this.backgroundArray.push(backgrounds))
-        objects.forEach(object => this.objectsArray.push(object))
-        enemies.forEach(enemy => this.enemiesArray.push(enemy))
+    restartButton() {
+        document.getElementById("restart-button").onclick = function () {
+            clearInterval(this.interval);
+            this.clearScreen()
+            this.actualLevel = 0
+            this.gameMusic._sound.currentTime = 0
+
+            this.start()
+
+        }.bind(game)
+    },
+
+    level() {
+        backgrounds[this.actualLevel].forEach(backgrounds => this.backgroundArray.push(backgrounds))
+        objects[this.actualLevel].forEach(object => this.objectsArray.push(object))
+        enemies[this.actualLevel].forEach(enemy => this.enemiesArray.push(enemy))
 
         // New life
         this.newLife.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 700, this.windowsSize.height - 370, 'images/pads/new-life.png'))
         //Finish
         this.finish = new Object(this.ctx, 130, 130, this.windowsSize.width, this.windowsSize.height, 50, 30, 'images/pads/finish.png')
 
-        // this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/sky-night.png'))
-        // this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 0, 0, 'images/background/rocks.png'))
-        // this.backgroundArray.push(new Background(this.ctx, 510, 104, this.windowsSize.width / 2 - 255, 20, 'images/game-logo.png'))
-
-        // this.objectsArray.push(new Object(this.ctx, 300, 50, this.windowsSize.width, this.windowsSize.height, 0, this.windowsSize.height - 60, 'images/pads/green-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 340, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 100, 30, this.windowsSize.width, this.windowsSize.height, 890, this.windowsSize.height - 80, 'images/pads/rock-floor.png'))
-
-
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1050, this.windowsSize.height - 80, 'images/pads/tree-floor.png', 1050, this.windowsSize.height - 80, 110, 'vertical'))
-
-        // //Second floor
-        // this.objectsArray.push(new Object(this.ctx, 500, 40, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 200, 30, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 200, 'images/pads/sand-floor.png'))
-
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 200, 'images/pads/tree-floor.png', 390, this.windowsSize.height - 200, 130, 'horizontal'))
-
-        // // Third floor
-        // this.objectsArray.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 10, this.windowsSize.height - 235, 'images/pads/rock.png'))
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 50, this.windowsSize.height - 300, 'images/pads/sand-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 150, this.windowsSize.height - 290, 'images/pads/sand-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 260, 30, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 310, 'images/pads/sand-floor.png'))
-
-        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 570, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 690, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 60, 20, this.windowsSize.width, this.windowsSize.height, 810, this.windowsSize.height - 305, 'images/pads/rock-floor.png'))
-
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 970, this.windowsSize.height - 300, 60, 'horizontal'))
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 1100, this.windowsSize.height - 300, 'images/pads/tree-floor.png', 1100, this.windowsSize.height - 300, 80, 'vertical'))
-
-        // // Final
-        // this.objectsArray.push(new Object(this.ctx, 80, 20, this.windowsSize.width, this.windowsSize.height, 970, this.windowsSize.height - 410, 'images/pads/tree-floor.png', 990, this.windowsSize.height - 410, 80, 'horizontal'))
-        // this.objectsArray.push(new Object(this.ctx, 300, 35, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 420, 'images/pads/sand-floor.png'))
-        // this.objectsArray.push(new Object(this.ctx, 300, 40, this.windowsSize.width, this.windowsSize.height, 250, this.windowsSize.height - 450, 'images/pads/sand-floor.png'))
-
-
-        // this.objectsArray.push(new Object(this.ctx, 200, 40, this.windowsSize.width, this.windowsSize.height, 40, 140, 'images/pads/sand-floor.png'))
-
-
-        //Enemies
-        // this.enemiesCreationLevel1()
-
     },
-    enemiesCreationLevel1() {
 
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 760, this.windowsSize.height - 120, 760, this.windowsSize.height - 120, 'images/enemies/enemy1-final.png', 250))
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 940, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 550, this.windowsSize.height - 240, 940, this.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400))
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 800, this.windowsSize.height - 465, 800, this.windowsSize.height - 465, 'images/enemies/enemy1-final.png', 220))
-
-        // More Enemies
-        // if (this.framesCounter % 1000 === 0) {
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 300, this.windowsSize.height - 450, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 350, this.windowsSize.height - 550, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
-        // }
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 390, this.windowsSize.height - 400, 460, this.windowsSize.height - 350, 'images/enemies/enemy1-final.png', 220))
-        // this.enemiesArray.push(new Enemy(this.ctx, this.windowsSize.width, this.windowsSize.height, 500, this.windowsSize.height - 490, 500, this.windowsSize.height - 490, 'images/enemies/enemy2-final.png', 220))
-    },
 
 }

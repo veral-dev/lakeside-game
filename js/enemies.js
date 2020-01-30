@@ -56,7 +56,7 @@ class Enemy {
         let gravity = 0.8;
 
         if (this.posY < this.posY0) {
-            //COmprobamos que el player nunca sobrepase el suelo.
+            //Comprobamos que el player nunca sobrepase el suelo.
 
             this.posY += this.velY;
             this.velY += gravity;

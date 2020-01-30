@@ -3,7 +3,7 @@ const backgrounds = [
 
     new Background(ctx, game.windowsSize.width, game.windowsSize.height, 0, 0, 'images/background/sky-night.png'),
     new Background(ctx, game.windowsSize.width, game.windowsSize.height, 0, 0, 'images/background/rocks2.png'),
-    new Background(ctx, 510, 104, game.windowsSize.width / 2 - 255, 20, 'images/game-logo.png'),
+    new Background(ctx, 510, 104, game.windowsSize.width / 2 - 235, 20, 'images/game-logo.png'),
 ]
 
 const objects = [
