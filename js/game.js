@@ -37,8 +37,6 @@ const game = {
         this.resetButton()
         this.restartButton()
         this.audioButton()
-
-
     },
     start() {
         this.reset()
@@ -57,9 +55,6 @@ const game = {
             this.scoreLife()
             this.win()
             this.player.posY >= this.windowsSize.height ? this.gameOver() : null
-
-
-
         }, 1000 / 20)
     },
 
@@ -93,21 +88,12 @@ const game = {
         this.player.move(this.framesCounter);
         this.objectsArray.forEach(obs => obs.move())
         this.enemiesArray.forEach(obs => obs.move())
-
     },
     scoreLife() {
-        if (this.player.playerLife >= 3) {
-            this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score03.png'))
-        } else if (this.player.playerLife === 2) {
-            this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score02.png'))
-
-        } else if (this.player.playerLife === 1) {
-            this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score01.png'))
-
-        } else {
-            this.gameOver()
-        }
-
+        if (this.player.playerLife >= 3) this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score03.png'))
+        else if (this.player.playerLife === 2) this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score02.png'))
+        else if (this.player.playerLife === 1) this.lifeArray.push(new Object(this.ctx, 100, 100, this.windowsSize.width, this.windowsSize.height, this.windowsSize.width - 120, 20, 'images/pads/score01.png'))
+        else this.gameOver()
     },
 
     setDimensions() {
@@ -137,37 +123,8 @@ const game = {
             } else {
                 this.player.posY0 += .5
                 obs._direction == 'horizontal' ? this.player.posX0 += 1 : null
-
-
             }
         })
-        // // Objetos en movimiento Y plataformas
-        // this.objectsInMovementY.forEach((obs) => {
-
-        //     if (this.player.posX + this.player.width - 10 >= obs.posX &&
-        //         // this.player.posY + this.player.height >= obs.posY &&
-        //         this.player.posX <= obs.posX + obs._width - 30 &&
-        //         this.player.posY + this.player.height <= obs.posY + obs._height
-        //     ) {
-        //         this.player.posY0 = obs.posY - this.player.height
-        //     } else {
-        //         this.player.posY0 += 1
-        //     }
-        // })
-        // // Objetos en movimiento X plataformas
-        // this.objectsInMovementX.forEach((obs) => {
-        //     if (this.player.posX + this.player.width - 10 >= obs.posX &&
-        //         this.player.posY + this.player.height >= obs.posY &&
-        //         this.player.posX <= obs.posX + obs._width - 30 &&
-        //         this.player.posY + this.player.height <= obs.posY + obs._height
-        //     ) {
-        //         this.player.posY0 = obs.posY - this.player.height
-        //         this.player.posX = obs.posX + 25
-        //     } else {
-        //         this.player.posX0 += 1
-        //     }
-        // })
-
         // New Life
         this.newLife.forEach((obs) => {
 
@@ -180,7 +137,6 @@ const game = {
                 this.newLife = [];
             }
         })
-
     },
 
     enemiesCollision() {
@@ -219,6 +175,23 @@ const game = {
                 })
             });
     },
+
+    // bulletEnemyCollision() {
+    //     //Bullets impact
+    //     this.enemiesArray.forEach(
+    //         (enemy, idx) => {
+    //             this.enemy.bulletsEnemy.forEach((bullet, idxBullet) => {
+    //                 if (bullet.posX + bullet.radius >= enemy.posX &&
+    //                     bullet.posY + bullet.radius >= enemy.posY &&
+    //                     bullet.posX <= enemy.posX + enemy.width &&
+    //                     bullet.posY + bullet.radius <= enemy.posY + enemy.height) {
+    //                     enemy.enemyLife--
+    //                     this.player.bullets.splice(idx, 1)
+    //                     enemy.enemyLife <= 0 ? this.enemiesArray.splice(idx, 1) : null
+    //                 }
+    //             })
+    //         });
+    // },
     win() {
         //WIN
         this.finishArray.forEach((final) => {
@@ -240,14 +213,8 @@ const game = {
     youWin() {
 
         let myImage = new Image()
-        if (this.actualLevel != backgrounds.length - 1) {
-            myImage.src = 'images/game-win.png'
-        } else {
-            myImage.src = 'images/big-win.png'
-        }
+        this.actualLevel != backgrounds.length - 1 ? myImage.src = 'images/game-win.png' : myImage.src = 'images/big-win.png'
         myImage.onload = () => this.ctx.drawImage(myImage, this.windowsSize.width / 2 - 180, this.windowsSize.height / 2 - 200, 400, 400)
-        // this.gameMusic.stop()
-
 
     },
 
@@ -265,7 +232,7 @@ const game = {
         this.gameMusic.stop()
         let audioGameOver = document.createElement("audio")
         audioGameOver.src = "sounds/game-over.mp3"
-        audioGameOver.volume = 0.5
+        audioGameOver.volume = 0.8
         audioGameOver.play()
         clearInterval(this.interval);
     },
@@ -295,7 +262,6 @@ const game = {
             this.actualLevel = 0
             this.gameMusic._sound.currentTime = 0
             this.start()
-
         }.bind(game)
     },
 

@@ -87,8 +87,8 @@ const enemies = [
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 940, game.windowsSize.height - 260, 940, game.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400),
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 550, game.windowsSize.height - 260, 940, game.windowsSize.height - 240, 'images/enemies/enemy1-final.png', 400),
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 800, game.windowsSize.height - 485, 800, game.windowsSize.height - 465, 'images/enemies/enemy1-final.png', 220),
-        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 300, game.windowsSize.height - 550, 500, game.windowsSize.height - 495, 'images/enemies/enemy2-final.png', 220),
-        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 450, game.windowsSize.height - 550, 500, game.windowsSize.height - 495, 'images/enemies/enemy2-final.png', 220),
+        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 300, game.windowsSize.height - 550, 500, game.windowsSize.height - 495, 'images/enemies/enemy2-final.png', 220, 'shoot'),
+        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 450, game.windowsSize.height - 550, 500, game.windowsSize.height - 495, 'images/enemies/enemy2-final.png', 220, 'shoot'),
     ],
     [
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 900, game.windowsSize.height - 160, 940, game.windowsSize.height - 160, 'images/enemies/enemy1-final.png', 200),

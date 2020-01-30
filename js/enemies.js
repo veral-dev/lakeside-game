@@ -5,7 +5,7 @@ class Enemy {
         this.gameHeight = windowHeight
         this.image = new Image()
         this.image.src = imgSource
-        this.shoot = shoot
+        this._shoot = shoot
 
         this.width = 50
         this.height = 50
@@ -26,6 +26,8 @@ class Enemy {
 
         this.direction = false;
         this.enemyLife = 40;
+        this.bulletsEnemy = []
+        this.bulletDirection = false
     }
     draw(framesCounter) {
         this._ctx.drawImage(
@@ -40,8 +42,7 @@ class Enemy {
             this.height
         );
         this.animate(framesCounter)
-
-        //  this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas.
+        this.bulletsEnemy.forEach(bullet => bullet.draw())
     }
 
     animate(framesCounter) {
@@ -50,6 +51,9 @@ class Enemy {
             if (this.image.framesIndex > 2) {
                 this.image.framesIndex = 0;
             }
+        }
+        if (this._shoot === 'shoot' && framesCounter % 30 == 0 && game.player.posY < this.posY + this.height) {
+            this.shoot()
         }
     }
 
@@ -82,6 +86,14 @@ class Enemy {
 
             this.vel *= -1
         }
+        this.bulletsEnemy.forEach(bullet => bullet.move())
+    }
 
+    shoot() {
+        game.player.posX >= this.posX ? this.bulletDirection = true : this.bulletDirection = false
+
+        this.bulletsEnemy.push(new BulletEnemy(this._ctx, this.posX, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
+        this.bulletsEnemy.length === 30 ? this.bulletsEnemy = [] : null
+        console.log(this.posX)
     }
 }
