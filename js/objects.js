@@ -47,25 +47,4 @@ class Object {
 
 
     }
-
-    // moveY() {
-    //     this.posY -= this.vel
-    //     if (this.posY <= this.posY0 - this._distance) {
-    //         this.vel *= -1
-    //     }
-    //     if (this.posY >= this.posY0) {
-    //         this.vel *= -1
-    //     }
-
-    // }
-
-    // moveX() {
-    //     this.posX -= this.vel
-    //     if (this.posX >= this.posX0 - this._distance) {
-    //         this.vel *= -1
-    //     }
-    //     if (this.posX <= this.posX0) {
-    //         this.vel *= -1
-    //     }
-    // }
 }

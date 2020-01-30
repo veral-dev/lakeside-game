@@ -24,7 +24,7 @@ const game = {
     enemiesArray: [],
     lifeArray: [],
     newLife: [],
-    finish: '',
+    finishArray: [],
     actualLevel: 0,
 
     init() {
@@ -48,7 +48,6 @@ const game = {
             this.framesCounter++
 
             if (this.framesCounter > 10000) this.framesCounter = 0
-            // this.backgroundNight()
             this.clearScreen()
             this.drawAll()
             this.moveALl()
@@ -72,7 +71,7 @@ const game = {
         this.enemiesArray = []
         this.lifeArray = []
         this.newLife = []
-        this.finish = ''
+        this.finishArray = []
 
         this.level()
 
@@ -86,7 +85,7 @@ const game = {
         this.objectsArray.forEach(obs => obs.draw())
         this.newLife.forEach(obs => obs.draw())
         this.enemiesArray.forEach(obs => obs.draw(this.framesCounter))
-        this.finish.draw()
+        this.finishArray.forEach(obs => obs.draw())
 
         this.player.draw(this.framesCounter);
     },
@@ -107,14 +106,6 @@ const game = {
 
         } else {
             this.gameOver()
-        }
-
-    },
-    backgroundNight() {
-        if (this.framesCounter % 500 === 0) {
-            this.backgroundArray = []
-            this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/sky-night.png'))
-            this.backgroundArray.push(new Background(this.ctx, this.windowsSize.width, this.windowsSize.height, 'images/background/rocks.png'))
         }
 
     },
@@ -176,6 +167,7 @@ const game = {
         //         this.player.posX0 += 1
         //     }
         // })
+
         // New Life
         this.newLife.forEach((obs) => {
 
@@ -229,17 +221,20 @@ const game = {
     },
     win() {
         //WIN
-        if (this.player.posX >= this.finish.posX &&
-            this.player.posX <= this.finish.posX + this.finish._width - 100 &&
-            this.player.posY + this.player.height <= this.finish.posY + this.finish._height
-        ) {
-            this.youWin()
-            clearInterval(this.interval)
-            // Wait 10 sec
-            this.actualLevel != backgrounds.length - 1 ? setTimeout(() => {
-                this.changeLevel()
-            }, 5000) : null
-        }
+        this.finishArray.forEach((final) => {
+            if (this.player.posX >= final.posX &&
+                this.player.posX <= final.posX + final._width - 100 &&
+                this.player.posY + this.player.height <= final.posY + final._height
+            ) {
+                this.youWin()
+                clearInterval(this.interval)
+                // Wait 10 sec
+                this.actualLevel != backgrounds.length - 1 ? setTimeout(() => {
+                    this.changeLevel()
+                }, 5000) : null
+            }
+
+        })
     },
 
     youWin() {
@@ -295,21 +290,22 @@ const game = {
             this.clearScreen()
             this.actualLevel = 0
             this.gameMusic._sound.currentTime = 0
-
             this.start()
 
         }.bind(game)
     },
 
     level() {
+        // Map
         backgrounds[this.actualLevel].forEach(backgrounds => this.backgroundArray.push(backgrounds))
         objects[this.actualLevel].forEach(object => this.objectsArray.push(object))
         enemies[this.actualLevel].forEach(enemy => this.enemiesArray.push(enemy))
 
         // New life
-        this.newLife.push(new Object(this.ctx, 40, 40, this.windowsSize.width, this.windowsSize.height, 700, this.windowsSize.height - 370, 'images/pads/new-life.png'))
+        powerObjects[this.actualLevel].forEach(obs => this.newLife.push(obs))
+
         //Finish
-        this.finish = new Object(this.ctx, 130, 130, this.windowsSize.width, this.windowsSize.height, 50, 30, 'images/pads/finish.png')
+        finishImage[this.actualLevel].forEach(img => this.finishArray.push(img))
 
     },
 

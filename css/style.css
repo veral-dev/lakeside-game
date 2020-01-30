@@ -1,7 +1,15 @@
 * {
     padding: 0;
     margin: 0;
-    background-color: #737171;
+    /* background-color: #737171; */
+
+
+}
+
+body {
+    background-image: url("./../images/background/sky-night.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .canvas {
@@ -17,9 +25,9 @@
 
 #logo {
     position: absolute;
-    left: 390px;
+    left: 450px;
     top: 50px;
-    z-index: 5;
+    z-index: -100;
 }
 
 #start-button {
@@ -42,7 +50,7 @@
     text-transform: uppercase;
     border-radius: 20px;
     position: absolute;
-    left: 530px;
+    left: 510px;
     bottom: 20px;
     padding: 11px 20px;
     margin: 10px auto;
@@ -56,7 +64,7 @@
     text-transform: uppercase;
     border-radius: 20px;
     position: absolute;
-    left: 685px;
+    left: 670px;
     bottom: 20px;
     padding: 11px 20px;
     margin: 10px auto;
