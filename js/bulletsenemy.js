@@ -15,7 +15,7 @@ class BulletEnemy {
 
     draw() {
         this.ctx.beginPath()
-        this.ctx.fillStyle = "#00ffe9";
+        this.ctx.fillStyle = "#de6700";
         this.ctx.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.closePath();
