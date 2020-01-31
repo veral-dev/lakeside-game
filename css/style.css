@@ -1,13 +1,10 @@
 * {
     padding: 0;
     margin: 0;
-    /* background-color: #737171; */
-
-
 }
 
 body {
-    background-image: url("./../images/background/sky-night.png");
+    background-image: url("../images/background/sky-night.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -67,6 +64,12 @@ button:focus {
     color: white;
     background-color: goldenrod;
     box-shadow: 5px 5px 8px #3d3d3d;
+    transition: all .5s ease-in-out;
+
+}
+
+#audio-button:hover {
+    transform: scale(1.1);
 }
 
 #reset-button {
@@ -81,6 +84,12 @@ button:focus {
     color: white;
     background-color: tomato;
     box-shadow: 5px 5px 8px #3d3d3d;
+    transition: all .5s ease-in-out;
+
+}
+
+#reset-button:hover {
+    transform: scale(1.1);
 }
 
 #restart-button {
@@ -96,6 +105,12 @@ button:focus {
     color: black;
     background-color: #fdd100;
     box-shadow: 5px 5px 8px #3d3d3d;
+    transition: all .5s ease-in-out;
+
+}
+
+#restart-button:hover {
+    transform: scale(1.1);
 }
 
 #game-logo {

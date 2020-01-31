@@ -10,9 +10,9 @@ class Player {
         this.width = 50
         this.height = 50
 
-        this.posX = 120
-        this.posY0 = this.gameHeight - 550; //Guardamos la posicion original para usarla como suelo
-        this.posY = this.gameHeight - this.height;
+        this.posX = 20
+        this.posY0 = this.gameHeight - 150
+        this.posY = this.gameHeight - this.height
 
         this.velY = 1
 
@@ -54,7 +54,7 @@ class Player {
 
         this.moving ? this.animate(framesCounter) : null; //Funcion que anima los frames
         this.shooting ? this.animate(framesCounter) : null;
-        this.bullets.forEach(bullet => bullet.draw()); //El player dibuja las balas
+        this.bullets.forEach(bullet => bullet.draw());
     }
 
     move() {
@@ -73,9 +73,9 @@ class Player {
         this.bullets.forEach(bullet => bullet.move()); //Movemos las balas
     }
     moveJump() {
-        if (this.keyUp) {
-            this.posY -= 10;
-        }
+
+        this.keyUp ? this.posY -= 10 : null
+
         this.keyRight ? this.posX += 5 : null
 
         this.keyLeft ? this.posX -= 5 : null
@@ -84,9 +84,7 @@ class Player {
     animate(framesCounter) {
         if (framesCounter % 5 == 0) {
             this.image.framesIndex++; //Cambiamos el frame de la imagen cada 5 fps.
-            if (this.image.framesIndex > 2) {
-                this.image.framesIndex = 0;
-            }
+            this.image.framesIndex > 2 ? this.image.framesIndex = 0 : null
         }
     }
 

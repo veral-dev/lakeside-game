@@ -113,7 +113,7 @@ const game = {
         // Objetos
         this.objectsArray.forEach((obs) => {
 
-            if (this.player.posX + this.player.width - 10 >= obs.posX &&
+            if (this.player.posX + this.player.width - 15 >= obs.posX &&
                 this.player.posY + this.player.height >= obs.posY &&
                 this.player.posX <= obs.posX + obs._width - 30 &&
                 this.player.posY + this.player.height <= obs.posY + obs._height
@@ -232,7 +232,7 @@ const game = {
         this.gameMusic.stop()
         let audioGameOver = document.createElement("audio")
         audioGameOver.src = "sounds/game-over.mp3"
-        audioGameOver.volume = 0.8
+        audioGameOver.volume = 0.9
         audioGameOver.play()
         clearInterval(this.interval);
     },
