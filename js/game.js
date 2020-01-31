@@ -52,6 +52,7 @@ const game = {
             this.isCollision()
             this.enemiesCollision()
             this.bulletCollision()
+            this.bulletEnemyCollision()
             this.scoreLife()
             this.win()
             this.player.posY >= this.windowsSize.height ? this.gameOver() : null
@@ -176,22 +177,21 @@ const game = {
             });
     },
 
-    // bulletEnemyCollision() {
-    //     //Bullets impact
-    //     this.enemiesArray.forEach(
-    //         (enemy, idx) => {
-    //             this.enemy.bulletsEnemy.forEach((bullet, idxBullet) => {
-    //                 if (bullet.posX + bullet.radius >= enemy.posX &&
-    //                     bullet.posY + bullet.radius >= enemy.posY &&
-    //                     bullet.posX <= enemy.posX + enemy.width &&
-    //                     bullet.posY + bullet.radius <= enemy.posY + enemy.height) {
-    //                     enemy.enemyLife--
-    //                     this.player.bullets.splice(idx, 1)
-    //                     enemy.enemyLife <= 0 ? this.enemiesArray.splice(idx, 1) : null
-    //                 }
-    //             })
-    //         });
-    // },
+    bulletEnemyCollision() {
+        //Bullets impact
+        this.enemiesArray.forEach(
+            (enemy, idx) => {
+                enemy.bulletsEnemy.forEach((bullet, idxBullet) => {
+                    if (bullet.posX + bullet.radius >= this.player.posX &&
+                        bullet.posY + bullet.radius >= this.player.posY &&
+                        bullet.posX <= this.player.posX + this.player.width &&
+                        bullet.posY + bullet.radius <= this.player.posY + this.player.height) {
+                        this.player.playerLife--
+                        enemy.bulletsEnemy.splice(idxBullet, 1)
+                    }
+                })
+            });
+    },
     win() {
         //WIN
         this.finishArray.forEach((final) => {

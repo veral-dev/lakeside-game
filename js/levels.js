@@ -98,8 +98,8 @@ const enemies = [
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 240, game.windowsSize.height - 395, 350, game.windowsSize.height - 395, 'images/enemies/enemy1-final.png', 160),
 
         new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 800, game.windowsSize.height - 550, 990, game.windowsSize.height - 520, 'images/enemies/enemy2-final.png', 220),
-        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 300, game.windowsSize.height - 550, 490, game.windowsSize.height - 500, 'images/enemies/enemy2-final.png', 220),
-        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 450, game.windowsSize.height - 550, 490, game.windowsSize.height - 500, 'images/enemies/enemy2-final.png', 220),
+        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 300, game.windowsSize.height - 550, 490, game.windowsSize.height - 500, 'images/enemies/enemy2-final.png', 220, 'shoot'),
+        new Enemy(ctx, game.windowsSize.width, game.windowsSize.height, 450, game.windowsSize.height - 550, 490, game.windowsSize.height - 500, 'images/enemies/enemy2-final.png', 220, 'shoot'),
 
 
     ],

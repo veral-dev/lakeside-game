@@ -52,7 +52,7 @@ class Enemy {
                 this.image.framesIndex = 0;
             }
         }
-        if (this._shoot === 'shoot' && framesCounter % 30 == 0 && game.player.posY < this.posY + this.height) {
+        if (this._shoot === 'shoot' && framesCounter % 40 == 0 && game.player.posY < this.posY + this.height) {
             this.shoot()
         }
     }
@@ -94,6 +94,5 @@ class Enemy {
 
         this.bulletsEnemy.push(new BulletEnemy(this._ctx, this.posX, this.posY + this.height / 2, this.posY0, this.height, this.bulletDirection));
         this.bulletsEnemy.length === 30 ? this.bulletsEnemy = [] : null
-        console.log(this.posX)
     }
 }
